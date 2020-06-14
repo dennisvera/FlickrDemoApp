@@ -76,15 +76,13 @@ final class FlickrPhotosViewController: UICollectionViewController {
       collectionView.selectItem(at: nil, animated: true, scrollPosition: [])
       selectedPhotos.removeAll()
 
-      guard let shareButton = self.navigationItem.rightBarButtonItems?.first else {
-        return
-      }
-
+      guard let shareButton = self.navigationItem.rightBarButtonItems?.first else { return }
+ 
       // 3
-      guard sharing else {
-        navigationItem.setRightBarButton(shareButton, animated: true)
-        return
-      }
+//      guard sharing else {
+//        navigationItem.setRightBarButton(shareButton, animated: true)
+//        return
+//      }
 
       // 4
       if largePhotoIndexPath != nil {
@@ -100,24 +98,24 @@ final class FlickrPhotosViewController: UICollectionViewController {
         shareButton,
         sharingItem
       ]
-
-      navigationItem.setRightBarButtonItems(items, animated: true)
+      
+      if sharing {
+        navigationItem.setRightBarButton(shareButton, animated: true)
+      } else {
+        navigationItem.setRightBarButtonItems(items, animated: true)
+      }
     }
   }
 
   @IBAction func share(_ sender: UIBarButtonItem) {
-    guard !searches.isEmpty else {
-      return
-    }
+    guard !searches.isEmpty else { return }
     
     guard !selectedPhotos.isEmpty else {
       sharing.toggle()
       return
     }
     
-    guard sharing else {
-      return
-    }
+    guard sharing else { return }
     
     let images: [UIImage] = selectedPhotos.compactMap { photo in
       if let thumbnail = photo.thumbnail {
